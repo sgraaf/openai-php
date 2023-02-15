@@ -126,54 +126,24 @@ class OpenAI_API_Client
         string $user = null,
     ): array {
         // construct the data array
-        $data = [
-            'model' => $model,
-        ];
-        if (!is_null($prompt)) {
-            $data['prompt'] = $prompt;
-        }
-        if (!is_null($suffix)) {
-            $data['suffix'] = $suffix;
-        }
-        if (!is_null($max_tokens)) {
-            $data['max_tokens'] = $max_tokens;
-        }
-        if (!is_null($temperature)) {
-            $data['temperature'] = $temperature;
-        }
-        if (!is_null($top_p)) {
-            $data['top_p'] = $top_p;
-        }
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($stream)) {
-            $data['stream'] = $stream;
-        }
-        if (!is_null($logprobs)) {
-            $data['logprobs'] = $logprobs;
-        }
-        if (!is_null($echo)) {
-            $data['echo'] = $echo;
-        }
-        if (!is_null($stop)) {
-            $data['stop'] = $stop;
-        }
-        if (!is_null($presence_penalty)) {
-            $data['presence_penalty'] = $presence_penalty;
-        }
-        if (!is_null($frequency_penalty)) {
-            $data['frequency_penalty'] = $frequency_penalty;
-        }
-        if (!is_null($best_of)) {
-            $data['best_of'] = $best_of;
-        }
-        if (!is_null($logit_bias)) {
-            $data['logit_bias'] = $logit_bias;
-        }
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+        $data = array_filter(compact(
+            'model',
+            'prompt',
+            'suffix',
+            'max_tokens',
+            'temperature',
+            'top_p',
+            'n',
+            'stream',
+            'logprobs',
+            'echo',
+            'stop',
+            'presence_penalty',
+            'frequency_penalty',
+            'best_of',
+            'logit_bias',
+            'user',
+        ));
 
         return $this->request('POST', '/completions', data: $data);
     }
@@ -187,22 +157,14 @@ class OpenAI_API_Client
         float $top_p = null,
     ): array {
         // construct the data array
-        $data = [
-            'model' => $model,
-            'instruction' => $instruction,
-        ];
-        if (!is_null($input)) {
-            $data['input'] = $input;
-        }
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($temperature)) {
-            $data['temperature'] = $temperature;
-        }
-        if (!is_null($top_p)) {
-            $data['top_p'] = $top_p;
-        }
+        $data = array_filter(compact(
+            'model',
+            'instruction',
+            'input',
+            'n',
+            'temperature',
+            'top_p',
+        ));
 
         return $this->request('POST', '/edits', data: $data);
     }
@@ -215,21 +177,13 @@ class OpenAI_API_Client
         string $user = null,
     ): array {
         // construct the data array
-        $data = [
-            'prompt' => $prompt,
-        ];
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($size)) {
-            $data['size'] = $size;
-        }
-        if (!is_null($response_format)) {
-            $data['response_format'] = $response_format;
-        }
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+        $data = array_filter(compact(
+            'prompt',
+            'n',
+            'size',
+            'response_format',
+            'user',
+        ));
 
         return $this->request('POST', '/images/generations', data: $data);
     }
