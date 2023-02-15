@@ -1,0 +1,43 @@
+{
+    "name": "sgraaf/openai-php",
+    "type": "library",
+    "description": "A thin PHP wrapper for the OpenAI API built upon libcurl.",
+    "keywords": [
+        "php",
+        "openai",
+        "api",
+        "sdk",
+        "client",
+        "GPT-3",
+        "ChatGPT"
+    ],
+    "homepage": "https://github.com/sgraaf/openai-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Steven van de Graaf",
+            "email": "steven@vandegraaf.xyz",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.14",
+        "phpstan/phpstan": "^1.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "sgraaf\\OpenAI\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist"
+    }
+}

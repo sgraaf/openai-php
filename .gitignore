@@ -1,0 +1,11 @@
+# Configuration
+.env
+
+# Composer files
+vendor/
+
+# Node.js files
+node_modules/
+
+# PHP-CS-Fixer cache
+.php-cs-fixer.cache
