@@ -2,7 +2,7 @@
 
 namespace OpenAI;
 
-class OpenAI_API_Client
+class Client
 {
     public const VERSION = '0.1.1';
     public const API_URL = 'https://api.openai.com/v1';
