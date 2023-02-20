@@ -126,54 +126,27 @@ class Client
         string $user = null,
     ): array {
         // construct the data array
-        $data = [
-            'model' => $model,
-        ];
-        if (!is_null($prompt)) {
-            $data['prompt'] = $prompt;
-        }
-        if (!is_null($suffix)) {
-            $data['suffix'] = $suffix;
-        }
-        if (!is_null($max_tokens)) {
-            $data['max_tokens'] = $max_tokens;
-        }
-        if (!is_null($temperature)) {
-            $data['temperature'] = $temperature;
-        }
-        if (!is_null($top_p)) {
-            $data['top_p'] = $top_p;
-        }
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($stream)) {
-            $data['stream'] = $stream;
-        }
-        if (!is_null($logprobs)) {
-            $data['logprobs'] = $logprobs;
-        }
-        if (!is_null($echo)) {
-            $data['echo'] = $echo;
-        }
-        if (!is_null($stop)) {
-            $data['stop'] = $stop;
-        }
-        if (!is_null($presence_penalty)) {
-            $data['presence_penalty'] = $presence_penalty;
-        }
-        if (!is_null($frequency_penalty)) {
-            $data['frequency_penalty'] = $frequency_penalty;
-        }
-        if (!is_null($best_of)) {
-            $data['best_of'] = $best_of;
-        }
-        if (!is_null($logit_bias)) {
-            $data['logit_bias'] = $logit_bias;
-        }
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+        $data = array_filter(
+            compact(
+                'model',
+                'prompt',
+                'suffix',
+                'max_tokens',
+                'temperature',
+                'top_p',
+                'n',
+                'stream',
+                'logprobs',
+                'echo',
+                'stop',
+                'presence_penalty',
+                'frequency_penalty',
+                'best_of',
+                'logit_bias',
+                'user',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/completions', data: $data);
     }
@@ -187,22 +160,17 @@ class Client
         float $top_p = null,
     ): array {
         // construct the data array
-        $data = [
-            'model' => $model,
-            'instruction' => $instruction,
-        ];
-        if (!is_null($input)) {
-            $data['input'] = $input;
-        }
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($temperature)) {
-            $data['temperature'] = $temperature;
-        }
-        if (!is_null($top_p)) {
-            $data['top_p'] = $top_p;
-        }
+        $data = array_filter(
+            compact(
+                'model',
+                'instruction',
+                'input',
+                'n',
+                'temperature',
+                'top_p',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/edits', data: $data);
     }
@@ -215,21 +183,16 @@ class Client
         string $user = null,
     ): array {
         // construct the data array
-        $data = [
-            'prompt' => $prompt,
-        ];
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($size)) {
-            $data['size'] = $size;
-        }
-        if (!is_null($response_format)) {
-            $data['response_format'] = $response_format;
-        }
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+        $data = array_filter(
+            compact(
+                'prompt',
+                'n',
+                'size',
+                'response_format',
+                'user',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/images/generations', data: $data);
     }
@@ -243,26 +206,25 @@ class Client
         string $response_format = null,
         string $user = null,
     ): array {
-        // construct the data array
-        $data = [
-            'image' => curl_file_create($image),
-            'prompt' => $prompt,
-        ];
+        // convert image and possibly mask to `CURLFile` objects
+        $image = new \CURLFile($image);
         if (!is_null($mask)) {
-            $data['mask'] = curl_file_create($mask);
+            $mask = new \CURLFile($mask);
         }
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($size)) {
-            $data['size'] = $size;
-        }
-        if (!is_null($response_format)) {
-            $data['response_format'] = $response_format;
-        }
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+
+        // construct the data array
+        $data = array_filter(
+            compact(
+                'image',
+                'prompt',
+                'mask',
+                'n',
+                'size',
+                'response_format',
+                'user',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/images/edits', data: $data);
     }
@@ -274,22 +236,20 @@ class Client
         string $response_format = null,
         string $user = null,
     ): array {
+        // convert image to `CURLFile` object
+        $image = new \CURLFile($image);
+
         // construct the data array
-        $data = [
-            'image' => curl_file_create($image),
-        ];
-        if (!is_null($n)) {
-            $data['n'] = $n;
-        }
-        if (!is_null($size)) {
-            $data['size'] = $size;
-        }
-        if (!is_null($response_format)) {
-            $data['response_format'] = $response_format;
-        }
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+        $data = array_filter(
+            compact(
+                'image',
+                'n',
+                'size',
+                'response_format',
+                'user',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/images/variations', data: $data);
     }
@@ -300,13 +260,14 @@ class Client
         string $user = null,
     ): array {
         // construct the data array
-        $data = [
-            'model' => $model,
-            'input' => $input,
-        ];
-        if (!is_null($user)) {
-            $data['user'] = $user;
-        }
+        $data = array_filter(
+            compact(
+                'model',
+                'input',
+                'user',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/embeddings', data: $data);
     }
@@ -320,11 +281,17 @@ class Client
         string $file,
         string $purpose,
     ): array {
+        // convert file to `CURLFile` object
+        $file = new \CURLFile($file);
+
         // construct the data array
-        $data = [
-            'file' => curl_file_create($file),
-            'purpose' => $purpose,
-        ];
+        $data = array_filter(
+            compact(
+                'file',
+                'purpose',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/files', data: $data);
     }
@@ -362,42 +329,23 @@ class Client
         string $suffix = null,
     ): array {
         // construct the data array
-        $data = [
-            'training_file' => $training_file,
-        ];
-        if (!is_null($validation_file)) {
-            $data['validation_file'] = $validation_file;
-        }
-        if (!is_null($model)) {
-            $data['model'] = $model;
-        }
-        if (!is_null($n_epochs)) {
-            $data['n_epochs'] = $n_epochs;
-        }
-        if (!is_null($batch_size)) {
-            $data['batch_size'] = $batch_size;
-        }
-        if (!is_null($learning_rate_multiplier)) {
-            $data['learning_rate_multiplier'] = $learning_rate_multiplier;
-        }
-        if (!is_null($prompt_loss_weight)) {
-            $data['prompt_loss_weight'] = $prompt_loss_weight;
-        }
-        if (!is_null($compute_classification_metrics)) {
-            $data['compute_classification_metrics'] = $compute_classification_metrics;
-        }
-        if (!is_null($classification_n_classes)) {
-            $data['classification_n_classes'] = $classification_n_classes;
-        }
-        if (!is_null($classification_positive_class)) {
-            $data['classification_positive_class'] = $classification_positive_class;
-        }
-        if (!is_null($classification_betas)) {
-            $data['classification_betas'] = $classification_betas;
-        }
-        if (!is_null($suffix)) {
-            $data['suffix'] = $suffix;
-        }
+        $data = array_filter(
+            compact(
+                'training_file',
+                'validation_file',
+                'model',
+                'n_epochs',
+                'batch_size',
+                'learning_rate_multiplier',
+                'prompt_loss_weight',
+                'compute_classification_metrics',
+                'classification_n_classes',
+                'classification_positive_class',
+                'classification_betas',
+                'suffix',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/fine-tunes', data: $data);
     }
@@ -442,12 +390,13 @@ class Client
         string $model = null,
     ): array {
         // construct the data array
-        $data = [
-            'input' => $input,
-        ];
-        if (!is_null($model)) {
-            $data['model'] = $model;
-        }
+        $data = array_filter(
+            compact(
+                'input',
+                'model',
+            ),
+            'is_null',
+        );
 
         return $this->request('POST', '/moderations', data: $data);
     }
