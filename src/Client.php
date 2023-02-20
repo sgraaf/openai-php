@@ -4,7 +4,7 @@ namespace OpenAI;
 
 class Client
 {
-    public const VERSION = '0.1.2';
+    public const VERSION = '0.1.3';
     public const API_URL = 'https://api.openai.com/v1';
     protected array $headers;
     protected array $curl_opts;
