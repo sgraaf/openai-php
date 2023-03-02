@@ -57,6 +57,20 @@ $client = new OpenAI\Client('YOUR_OPENAI_API_KEY');
 var_dump($client->createCompletion(model: 'text-davinci-003', prompt: 'Say this is a test', max_tokens: 7, temperature: 0));
 ```
 
+### Chat
+
+#### Create chat completion
+
+Creates a completion for the chat message. See the [OpenAI docs](https://platform.openai.com/docs/api-reference/chat/create) for more information.
+
+```php
+// initialize the client
+$client = new OpenAI\Client('YOUR_OPENAI_API_KEY');
+
+// creates a completion for the chat message
+var_dump($client->createChatCompletion(model: 'gpt-3.5-turbo', messages: [['role' => 'user', 'content' => 'Hello!']]));
+```
+
 ### Edits
 
 #### Create edit
@@ -121,6 +135,32 @@ $client = new OpenAI\Client('YOUR_OPENAI_API_KEY');
 
 // creates an embedding vector representing the input text
 var_dump($client->createEmbedding(model: 'text-embedding-ada-002', input: 'The food was delicious and the waiter...'));
+```
+
+### Audio
+
+#### Create transcription
+
+Transcribes audio into the input language. See the [OpenAI docs](https://platform.openai.com/docs/api-reference/audio/create) for more information.
+
+```php
+// initialize the client
+$client = new OpenAI\Client('YOUR_OPENAI_API_KEY');
+
+// transcribes audio into the input language
+var_dump($client->createTranscription(file: 'audio.mp3', model: 'whisper-1'));
+```
+
+#### Create translation
+
+Translates audio into English. See the [OpenAI docs](https://platform.openai.com/docs/api-reference/audio/create) for more information.
+
+```php
+// initialize the client
+$client = new OpenAI\Client('YOUR_OPENAI_API_KEY');
+
+// translates audio into english
+var_dump($client->createTranslation(file: 'german.m4a', model: 'whisper-1'));
 ```
 
 ### Files

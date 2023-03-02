@@ -151,6 +151,42 @@ class Client
         return $this->request('POST', '/completions', data: $data);
     }
 
+    public function createChatCompletion(
+        string $model,
+        array $messages,
+        float $temperature = null,
+        float $top_p = null,
+        int $n = null,
+        bool $stream = null,
+        mixed $stop = null,
+        int $max_tokens = null,
+        float $presence_penalty = null,
+        float $frequency_penalty = null,
+        array $logit_bias = null,
+        string $user = null,
+    ): array {
+        // construct the data array
+        $data = array_filter(
+            compact(
+                'model',
+                'messages',
+                'temperature',
+                'top_p',
+                'n',
+                'stream',
+                'stop',
+                'max_tokens',
+                'presence_penalty',
+                'frequency_penalty',
+                'logit_bias',
+                'user',
+            ),
+            'is_null',
+        );
+
+        return $this->request('POST', 'chat/completions', data: $data);
+    }
+
     public function createEdit(
         string $model,
         string $instruction,
@@ -254,7 +290,7 @@ class Client
         return $this->request('POST', '/images/variations', data: $data);
     }
 
-    public function createEmbeddings(
+    public function createEmbedding(
         string $model,
         string $input,
         string $user = null,
@@ -270,6 +306,58 @@ class Client
         );
 
         return $this->request('POST', '/embeddings', data: $data);
+    }
+
+    public function createTranscription(
+        string $file,
+        string $model,
+        string $prompt = null,
+        string $response_format = null,
+        float $temperature = null,
+        string $language = null,
+    ): array {
+        // convert file to `CURLFile` object
+        $file = new \CURLFile($file);
+
+        // construct the data array
+        $data = array_filter(
+            compact(
+                'file',
+                'model',
+                'prompt',
+                'response_format',
+                'temperature',
+                'language',
+            ),
+            'is_null',
+        );
+
+        return $this->request('POST', '/audio/transcriptions', data: $data);
+    }
+
+    public function createTranslation(
+        string $file,
+        string $model,
+        string $prompt = null,
+        string $response_format = null,
+        float $temperature = null,
+    ): array {
+        // convert file to `CURLFile` object
+        $file = new \CURLFile($file);
+
+        // construct the data array
+        $data = array_filter(
+            compact(
+                'file',
+                'model',
+                'prompt',
+                'response_format',
+                'temperature',
+            ),
+            'is_null',
+        );
+
+        return $this->request('POST', '/audio/translations', data: $data);
     }
 
     public function listFiles(): array
