@@ -184,7 +184,7 @@ class Client
             'is_null',
         );
 
-        return $this->request('POST', 'chat/completions', data: $data);
+        return $this->request('POST', '/chat/completions', data: $data);
     }
 
     public function createEdit(
