@@ -97,6 +97,10 @@ class Client
         return json_decode($response, true);
     }
 
+    private function filter(mixed $value): bool {
+        return !is_null($value);
+    }
+
     public function listModels(): array
     {
         return $this->request('GET', '/models');
@@ -145,7 +149,7 @@ class Client
                 'logit_bias',
                 'user',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/completions', data: $data);
@@ -181,7 +185,7 @@ class Client
                 'logit_bias',
                 'user',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/chat/completions', data: $data);
@@ -205,7 +209,7 @@ class Client
                 'temperature',
                 'top_p',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/edits', data: $data);
@@ -227,7 +231,7 @@ class Client
                 'response_format',
                 'user',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/images/generations', data: $data);
@@ -259,7 +263,7 @@ class Client
                 'response_format',
                 'user',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/images/edits', data: $data);
@@ -284,7 +288,7 @@ class Client
                 'response_format',
                 'user',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/images/variations', data: $data);
@@ -302,7 +306,7 @@ class Client
                 'input',
                 'user',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/embeddings', data: $data);
@@ -329,7 +333,7 @@ class Client
                 'temperature',
                 'language',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/audio/transcriptions', data: $data);
@@ -354,7 +358,7 @@ class Client
                 'response_format',
                 'temperature',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/audio/translations', data: $data);
@@ -378,7 +382,7 @@ class Client
                 'file',
                 'purpose',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/files', data: $data);
@@ -432,7 +436,7 @@ class Client
                 'classification_betas',
                 'suffix',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/fine-tunes', data: $data);
@@ -483,7 +487,7 @@ class Client
                 'input',
                 'model',
             ),
-            'is_null',
+            [$this, 'filter'],
         );
 
         return $this->request('POST', '/moderations', data: $data);
